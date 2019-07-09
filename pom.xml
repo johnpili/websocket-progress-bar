@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.johnpili</groupId>
+    <artifactId>websocket-progress-bar</artifactId>
+    <version>1.0.0</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.4.RELEASE</version>
+        <!-- UNCOMMENT IF WAR START -->
+        <!--<relativePath/>-->
+        <!-- UNCOMMEND IF WAR END -->
+    </parent>
+
+    <properties>
+
+        <java.version>1.8</java.version>
+
+        <!-- SPRING BOOT -->
+        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+
+        <mustache.compiler.api.version>0.9.2</mustache.compiler.api.version>
+        <assertj.version>3.7.0</assertj.version>
+        <log4j.version>1.2.16</log4j.version>
+        <junit.version>4.12</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- maven plugins -->
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M1</maven-surefire-plugin.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <datafactory.version>0.8</datafactory.version>
+
+        <starter-class>com.johnpili.websocketprogressbar.Application</starter-class>
+        <!-- UNCOMMENT IF WAR START -->
+        <!--<main.basedir>${basedir}/../..</main.basedir>
+        <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>-->
+        <!-- UNCOMMENT IF WAR END -->
+
+        <org.slf4j-version>1.7.16</org.slf4j-version>
+        <net.spy.spymemcached-version>2.12.3</net.spy.spymemcached-version>
+    </properties>
+
+    <dependencies>
+
+        <!-- UNCOMMENT IF JAR START -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <!-- UNCOMMENT IF JAR END -->
+
+        <!-- START SPRING SECURITY FOR WEB -->
+
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>-->
+
+        <!-- END SPRING SECURITY FOR WEB -->
+
+        <!-- START UI RELATED -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!--<dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency>-->
+
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <!-- END UI RELATED -->
+
+        <!-- START SPRING BOOT WEBSOCKET -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- END SPRING BOOT WEBSOCKET -->
+
+    </dependencies>
+
+
+    <!-- BUILD FOR JAR START -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.0.6.RELEASE</version>
+                <configuration>
+                    <mainClass>com.johnpili.websocketprogressbar.Application</mainClass>
+                    <addResources>true</addResources>
+                    <executable>true</executable>
+                    <requiresUnpack>
+                        <dependency>
+                            <groupId>org.jruby</groupId>
+                            <artifactId>jruby-complete</artifactId>
+                        </dependency>
+                    </requiresUnpack>
+                    <layout>ZIP</layout>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <!-- BUILD FOR JAR END -->
+</project>

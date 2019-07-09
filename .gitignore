@@ -1,0 +1,12 @@
+*.metadata/
+*.idea/
+*.classpath
+*.project
+*.springBeans
+*.iml
+*.settings/
+target/
+bin/
+CATALINA_HOME_IS_UNDEFINED/
+*.log
+src/main/resources/lib/plugin-entities.jar
