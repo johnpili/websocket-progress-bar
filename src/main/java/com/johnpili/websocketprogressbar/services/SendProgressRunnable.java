@@ -8,6 +8,7 @@ public class SendProgressRunnable implements Runnable
 	private static final Logger logger = LoggerFactory.getLogger(SendProgressRunnable.class);
 
 	public static String BROADCAST_WS_ENDPOINT = "/ws-broadcast/update-progress";
+	public static String BROADCAST_WS_PROGRESS_UPDATE_WITH_DETAILS = "/ws-broadcast/update-progress-with-details";
 
 	BroadcastWebsocketService broadcastWebsocketService;
 
@@ -24,12 +25,12 @@ public class SendProgressRunnable implements Runnable
 			try
 			{
 				this.broadcastWebsocketService.broadcastProgressUpdate(BROADCAST_WS_ENDPOINT, i);
-				Thread.sleep(500);
 				if(i >= 100)
 				{
 					Thread.currentThread().interrupt();
 					break;
 				}
+				Thread.sleep(100);
 			}
 			catch(Exception exception)
 			{

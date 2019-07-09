@@ -25,4 +25,16 @@ public class BroadcastWebsocketService
 			logger.error(exception.getMessage());
 		}
 	}
+
+	public void broadcastProgressUpdate(String destination, String jsonPayload)
+	{
+		try
+		{
+			messagingTemplate.convertAndSend(destination, jsonPayload);
+		}
+		catch (Exception exception)
+		{
+			logger.error(exception.getMessage());
+		}
+	}
 }

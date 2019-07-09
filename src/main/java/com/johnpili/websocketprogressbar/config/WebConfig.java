@@ -1,5 +1,6 @@
 package com.johnpili.websocketprogressbar.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,12 @@ public class WebConfig implements WebMvcConfigurer
 
 	@Autowired
 	public ApplicationContext applicationContext;
+
+	@Bean
+	public ObjectMapper getObjectMapper()
+	{
+		return new ObjectMapper();
+	}
 
 	@Bean
 	public MultipartResolver multipartResolver()

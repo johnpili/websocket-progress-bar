@@ -27,15 +27,52 @@
 <body>
     <div id="root" class="container">
         <div class="row">
+            <div class="col-12">
+                <h1>Websocket Progress Bar</h1>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-12" style="padding-top: 100px;">
+                <h5>Simple Progress Bar</h5>
                 <div class="progress">
-                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: width + '%'}" v-html="width"></div>
+                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: width + '%'}" v-html="width + '%'"></div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12 pt-5">
                 <button @click="upload" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="padding-top: 100px;">
+                <h5>Process MD5 Dictionary</h5>
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: progress + '%'}" v-html="progress + '%'"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 pt-5">
+                <button @click="processDictionary" class="btn btn-primary">Start Server Process</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Word</th>
+                            <th>MD5 Hash</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in messages">
+                            <td v-html="item.word"></td>
+                            <td v-html="item.hash"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -46,14 +83,23 @@
             el: "#root",
             data: {
                 width: 0,
+                messages: [],
+                progress: 0,
             },
             methods:{
-                showMessage(msg) {
-                    this.width = parseInt(msg.body);
+                handleSimpleProgressBarUpdate(msg) {
+                    this.width = parseFloat(msg.body);
+                },
+                handleProgressBarUpdateWithDetails(msg) {
+                    var p = JSON.parse(msg.body);
+                    this.progress =Math.round((p.current / p.max) * 100);
+                    this.messages.unshift({word: p.word, hash: p.md5});
+
                 },
                 subscribe(frame){
                     console.log('Connected: ' + frame);
-                    this.stompClient.subscribe('/ws-broadcast/update-progress', this.showMessage);
+                    this.stompClient.subscribe('/ws-broadcast/update-progress', this.handleSimpleProgressBarUpdate);
+                    this.stompClient.subscribe('/ws-broadcast/update-progress-with-details', this.handleProgressBarUpdateWithDetails);
                 },
                 connect(){
                     var socket = new SockJS('/progress-ws', {transports: ['websocket']});
@@ -71,6 +117,24 @@
                     };
 
                     axios.post("/upload", tmp)
+                        .then(function (response) {
+                            //console.log(response.data);
+                        }.bind(this))
+                        .catch(function (error) {
+                            //console.error(error);
+                        }.bind(this));
+                },
+
+                processDictionary()
+                {
+                    this.progress = 0;
+                    this.messages = [];
+
+                    var tmp = {
+                        placeholder: "Test"
+                    };
+
+                    axios.post("/process-dictionary", tmp)
                         .then(function (response) {
                             //console.log(response.data);
                         }.bind(this))
