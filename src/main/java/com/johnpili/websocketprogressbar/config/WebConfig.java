@@ -14,36 +14,31 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer
-{
-	private static final Logger logger = LoggerFactory.getLogger(WebConfig.class);
+public class WebConfig implements WebMvcConfigurer {
+    private static final Logger logger = LoggerFactory.getLogger(WebConfig.class);
 
-	@Autowired
-	public ApplicationContext applicationContext;
+    @Autowired
+    public ApplicationContext applicationContext;
 
-	@Bean
-	public ObjectMapper getObjectMapper()
-	{
-		return new ObjectMapper();
-	}
+    @Bean
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
+    }
 
-	@Bean
-	public MultipartResolver multipartResolver()
-	{
-		return new StandardServletMultipartResolver();
-	}
+    @Bean
+    public MultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
+    }
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry)
-	{
-		registry.addResourceHandler(
-				"/vendors/**").addResourceLocations(
-				"classpath:/static/vendors/");
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(
+                "/vendors/**").addResourceLocations(
+                "classpath:/static/vendors/");
+    }
 
-	@Bean
-	public LayoutDialect layoutDialect()
-	{
-		return new LayoutDialect();
-	}
+    @Bean
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect();
+    }
 }

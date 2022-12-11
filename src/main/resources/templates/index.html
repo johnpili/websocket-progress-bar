@@ -79,7 +79,7 @@
     <script src="/vendors/others/stomp.min.js"></script>
     <script src="/vendors/sockjs/sockjs.min.js"></script>
     <script>
-        var app = new Vue({
+        let app = new Vue({
             el: "#root",
             data: {
                 width: 0,
@@ -91,55 +91,46 @@
                     this.width = parseFloat(msg.body);
                 },
                 handleProgressBarUpdateWithDetails(msg) {
-                    var p = JSON.parse(msg.body);
+                    let p = JSON.parse(msg.body);
                     this.progress =Math.round((p.current / p.max) * 100);
                     this.messages.unshift({word: p.word, hash: p.md5});
-
                 },
-                subscribe(frame){
+                subscribe(frame) {
                     console.log('Connected: ' + frame);
                     this.stompClient.subscribe('/ws-broadcast/update-progress', this.handleSimpleProgressBarUpdate);
                     this.stompClient.subscribe('/ws-broadcast/update-progress-with-details', this.handleProgressBarUpdateWithDetails);
                 },
-                connect(){
-                    var socket = new SockJS('/progress-ws', {transports: ['websocket']});
+                connect() {
+                    let socket = new SockJS('/progress-ws', {transports: ['websocket']});
                     this.stompClient = Stomp.over(socket);
                     this.stompClient.reconnect_delay = 5000;
                     this.stompClient.connect({}, this.subscribe);
                 },
-
-                upload()
-                {
+                upload() {
                     this.width = 0;
 
-                    var tmp = {
-                        placeholder: "Test"
+                    let tmp = {
+                        placeholder: ""
                     };
 
                     axios.post("/upload", tmp)
                         .then(function (response) {
-                            //console.log(response.data);
                         }.bind(this))
                         .catch(function (error) {
-                            //console.error(error);
                         }.bind(this));
                 },
-
-                processDictionary()
-                {
+                processDictionary() {
                     this.progress = 0;
                     this.messages = [];
 
-                    var tmp = {
-                        placeholder: "Test"
+                    let tmp = {
+                        placeholder: ""
                     };
 
                     axios.post("/process-dictionary", tmp)
                         .then(function (response) {
-                            //console.log(response.data);
                         }.bind(this))
                         .catch(function (error) {
-                            //console.error(error);
                         }.bind(this));
                 },
             },

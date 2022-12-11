@@ -7,34 +7,25 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BroadcastWebsocketService
-{
-	private static final Logger logger = LoggerFactory.getLogger(BroadcastWebsocketService.class);
+public class BroadcastWebsocketService {
+    private static final Logger logger = LoggerFactory.getLogger(BroadcastWebsocketService.class);
 
-	@Autowired
-	SimpMessagingTemplate messagingTemplate;
+    @Autowired
+    SimpMessagingTemplate messagingTemplate;
 
-	public void broadcastProgressUpdate(String destination, int progress)
-	{
-		try
-		{
-			messagingTemplate.convertAndSend(destination, progress);
-		}
-		catch (Exception exception)
-		{
-			logger.error(exception.getMessage());
-		}
-	}
+    public void broadcastProgressUpdate(String destination, int progress) {
+        try {
+            messagingTemplate.convertAndSend(destination, progress);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+    }
 
-	public void broadcastProgressUpdate(String destination, String jsonPayload)
-	{
-		try
-		{
-			messagingTemplate.convertAndSend(destination, jsonPayload);
-		}
-		catch (Exception exception)
-		{
-			logger.error(exception.getMessage());
-		}
-	}
+    public void broadcastProgressUpdate(String destination, String jsonPayload) {
+        try {
+            messagingTemplate.convertAndSend(destination, jsonPayload);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+    }
 }
